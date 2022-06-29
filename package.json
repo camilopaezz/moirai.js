@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "figlet": "^1.5.2",
+    "inquirer": "^9.0.0",
+    "node-fetch": "^3.2.6"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.47"
+  },
+  "scripts": {
+    "build": "esbuild --bundle --format=esm --external:./node_modules/* --outfile=./dist/index.js --minify --platform=node ./index.js"
+  }
+}
