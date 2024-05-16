@@ -1,32 +1,44 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { Question } from '../utils/types';
-import { p100 } from '../interact/p100';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { PrevValues } from '../utils/types';
+import { Questions } from '../interact/questions';
 
-const Playbox = () => {
-  const [question, setQuestion] = useState<Question>(p100);
+interface PlayboxProps {
+  prevValues: PrevValues;
+}
 
-  const filterInteractions = question.interactions.filter((interaction) => {
-    if (interaction.dependencies) {
-      return interaction.dependencies.every(
-        (dependency) => question.variables![dependency],
+interface Input {
+  [key: string]: string;
+}
+
+const Playbox = ({ prevValues }: PlayboxProps) => {
+  const questionTree = useRef(new Questions(prevValues));
+
+  const [input, setInput] = useState<Input>({});
+  const [question, setQuestion] = useState(
+    questionTree.current.getQuestion('0000')!,
+  );
+
+  const filteredInteractions = useMemo(() => {
+    const interactions = question.interactions;
+
+    const filtered = interactions.filter((interaction) => {
+      return questionTree.current.areRequirementsMet(
+        question.key,
+        interaction.requires || [],
       );
-    }
+    });
 
-    return true;
-  });
+    return filtered;
+  }, [question]);
 
   return (
-    <div className="rounded-xl border-2 border-green-500">
+    <div className="mx-auto max-w-[900px] rounded-xl border-2 border-green-500">
       {/* TITLE */}
       <div className="border-b-2 border-green-500 p-4 text-justify">
-        {Array.isArray(question.description) ? (
-          question.description.map((desc, index) => <h2 key={index}>{desc}</h2>)
-        ) : (
-          <h2>{question.description}</h2>
-        )}
+        {question.content &&
+          question.content.map((desc, index) => <h2 key={index}>{desc}</h2>)}
       </div>
 
       {/* LOGS
@@ -39,6 +51,13 @@ const Playbox = () => {
         <div className="border-b-2 border-green-500">
           <input
             className="h-14 w-full bg-zinc-950 px-4 placeholder:text-green-600"
+            name={question.input.name}
+            onChange={(e) =>
+              setInput({
+                ...input,
+                [question.input!.name]: e.target.value,
+              })
+            }
             placeholder="your answer here..."
             type="text"
           />
@@ -47,10 +66,16 @@ const Playbox = () => {
 
       {/* INTERACTIONS */}
       <div className="w-full">
-        {filterInteractions.map((interaction) => (
+        {filteredInteractions.map((interaction) => (
           <div
             key={interaction.description}
-            onClick={() => setQuestion(interaction.action())}
+            onClick={() => {
+              questionTree.current.dispatch(
+                question.key,
+                interaction.dispatch || [],
+              );
+              setQuestion(questionTree.current.getQuestion(interaction.ref)!);
+            }}
             className="flex h-12 cursor-pointer items-center px-4 hover:underline"
           >
             <span>

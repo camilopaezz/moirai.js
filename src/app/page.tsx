@@ -4,7 +4,7 @@ import { GoPlay } from 'react-icons/go';
 
 export default function Home() {
   return (
-    <main className="h-[calc(100%_-_120px)] px-6 py-10 text-center">
+    <main className="px-6 py-10 text-center">
       <header className="grid gap-6">
         <h1 className="text-5xl underline">Moirai.js</h1>
         <p>A text based implementation of the moirai game</p>

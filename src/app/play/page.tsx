@@ -2,10 +2,15 @@ import Playbox from './components/Playbox';
 
 const PlayPage = () => {
   return (
-    <main className="h-[calc(100%_-_120px)]">
-      <h1>Play Page</h1>
-      <br />
-      <Playbox />
+    <main className="p-6">
+      <Playbox
+        prevValues={{
+          whatYouDone: 'nothing',
+          whyBlood: 'because',
+          whyKnife: 'because',
+          name: 'John Doe',
+        }}
+      />
     </main>
   );
 };

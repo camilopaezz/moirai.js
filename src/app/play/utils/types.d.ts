@@ -8,6 +8,14 @@ export interface Question {
   interactions: Interaction[];
   previus: Question | null;
   variables?: { [key: string]: boolean };
+  prevValues?: PrevValues;
+}
+
+export interface PrevValues {
+  whyBlood: string[] | string;
+  whyKnife: string[] | string;
+  whatYouDone: string[] | string;
+  name: string;
 }
 
 export interface Interaction {

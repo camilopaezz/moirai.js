@@ -22,10 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={IBMPlexMono.className}>
-        <div className="h-full">
+        <div className="mx-auto h-screen max-w-[1200px]">
           <Navbar />
           {children}
-          <footer>
+          <footer className="w-full">
             <p className="flex h-10 items-center justify-center border-t-2 border-green-600 text-center">
               © {new Date().getFullYear()} Moirai.js
             </p>{' '}
