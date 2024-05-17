@@ -9,7 +9,7 @@ interface Interaction {
 interface Question {
   key: string;
   content: string[];
-  input?: { [name: string]: string };
+  input?: { name: string };
   variables?: any;
   interactions: Interaction[];
 }
@@ -376,10 +376,10 @@ const getQuestionList: (prevValues: PrevValues) => Question[] = (
   },
   {
     key: '6000_kill',
-    content: ['You kill the farmer.'],
+    content: [`You kill the farmer. There's a name: ${prevValues.name}`],
     interactions: [
       {
-        description: 'Go back.',
+        description: 'Continue.',
         ref: '6000',
         type: 'GOTO',
       },
@@ -387,10 +387,10 @@ const getQuestionList: (prevValues: PrevValues) => Question[] = (
   },
   {
     key: '6000_let_go',
-    content: ['You let the farmer go.'],
+    content: [`You let the farmer go. You see a name: ${prevValues.name}`],
     interactions: [
       {
-        description: 'Go back.',
+        description: 'Continue.',
         ref: '6000',
         type: 'GOTO',
       },
@@ -399,13 +399,106 @@ const getQuestionList: (prevValues: PrevValues) => Question[] = (
   // SIXTH PART
   {
     key: '6000',
-    content: ['You are back at the farmer.'],
+    content: [
+      "You see a women's, she tells you:",
+      '"I came here to end my life. My name is Julia and I want to see my child and husband in heaven..."',
+      '"...My husband was a miner in these caves. He spent days mining for gold and then one day he found something..."',
+      "He found a golden nugget. I thought we could retire and be comfortable for the rest of our lives, but he didn't trust me.",
+      'He buried the golden nugget to spite me. Then he disappeared. Everyone in the town heard about our good fortune.',
+      "They thought I was rich. I was so ashamed that I couldn't tell them the truth.",
+      'One day my son wandered into the cave. He wanted to find his daddy. He wanted to make everything better.',
+      "But he never came out of the cave. I went to look for him but i couldn't find him. Now it's too late. Now I have nobody.",
+      "Will you help me? Will you help me end my life? You've done it before. It should be easier the second time.",
+    ],
     interactions: [
       {
         description: 'Go back to the town',
-        ref: '0000',
+        ref: '6100',
         type: 'GOTO',
       },
     ],
+  },
+  {
+    key: '6100',
+    content: ['A farmer approaches.'],
+    interactions: [
+      {
+        description: 'Approach the farmer',
+        ref: '6200',
+        type: 'TALK',
+      },
+    ],
+  },
+  {
+    key: '6200',
+    content: ['Farmer: Why do you have blood on your overalls?'],
+    input: {
+      name: 'whyBlood',
+    },
+    interactions: [
+      {
+        description: 'Continue',
+        ref: '6300',
+        type: 'TALK',
+      },
+    ],
+  },
+  {
+    key: '6300',
+    content: ['Farmer: Why do you have a knife?'],
+    input: {
+      name: 'whyKnife',
+    },
+    interactions: [
+      {
+        description: 'Continue',
+        ref: '6400',
+        type: 'TALK',
+      },
+    ],
+  },
+  {
+    key: '6400',
+    content: ['Farmer: I heard moans, what have you done?'],
+    input: {
+      name: 'whatYouDone',
+    },
+    interactions: [
+      {
+        description: 'Continue',
+        ref: '6500',
+        type: 'TALK',
+      },
+    ],
+  },
+  {
+    key: '6500',
+    content: ['Farmer: What is your name?'],
+    input: {
+      name: 'name',
+    },
+    interactions: [
+      {
+        description: 'Continue',
+        ref: '6600',
+        type: 'TALK',
+      },
+    ],
+  },
+  {
+    content: ['This is the end of the game. For now...'],
+    key: '6600',
+    interactions: [
+      {
+        description: 'End',
+        ref: 'END',
+        type: 'END',
+      },
+    ],
+  },
+  {
+    key: 'END',
+    content: ['The end'],
+    interactions: [],
   },
 ];

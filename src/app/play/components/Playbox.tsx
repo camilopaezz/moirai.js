@@ -6,14 +6,16 @@ import { Questions } from '../interact/questions';
 
 interface PlayboxProps {
   prevValues: PrevValues;
+  sendAction: (e: any) => void;
 }
 
 interface Input {
   [key: string]: string;
 }
 
-const Playbox = ({ prevValues }: PlayboxProps) => {
+const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
   const questionTree = useRef(new Questions(prevValues));
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [input, setInput] = useState<Input>({});
   const [hadKill, setHadKill] = useState<Boolean>();
@@ -42,6 +44,12 @@ const Playbox = ({ prevValues }: PlayboxProps) => {
 
     if (question.key === '6000_let_go') {
       setHadKill(false);
+    }
+  }, [question]);
+
+  useEffect(() => {
+    if (question.key === 'END') {
+      formRef.current?.submit();
     }
   }, [question]);
 
@@ -96,6 +104,33 @@ const Playbox = ({ prevValues }: PlayboxProps) => {
           </div>
         ))}
       </div>
+      <form hidden ref={formRef} action={sendAction}>
+        <input
+          readOnly
+          type="text"
+          name="why_blood"
+          value={input.whyBlood || ''}
+        />
+        <input readOnly type="text" name="name" value={input.name || ''} />
+        <input
+          readOnly
+          type="text"
+          name="what_you_done"
+          value={input.whatYouDone || ''}
+        />
+        <input
+          readOnly
+          type="text"
+          name="why_knife"
+          value={input.whyKnife || ''}
+        />
+        <input
+          readOnly
+          type="checkbox"
+          name="hasKilled"
+          value={`${hadKill || 'false'}`}
+        />
+      </form>
     </div>
   );
 };
