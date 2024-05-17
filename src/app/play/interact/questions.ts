@@ -33,7 +33,6 @@ export class Questions {
     if (!question) return false;
 
     if (question.variables) {
-      console.log('dispatch', dispatch);
       dispatch.forEach((d) => {
         question.variables![d] = true;
       });

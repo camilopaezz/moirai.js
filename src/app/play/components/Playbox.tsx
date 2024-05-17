@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PrevValues } from '../utils/types';
 import { Questions } from '../interact/questions';
+import { motion } from 'framer-motion';
+import AnimatedText from '@/components/AnimatedText';
 
 interface PlayboxProps {
   prevValues: PrevValues;
@@ -10,14 +12,22 @@ interface PlayboxProps {
 }
 
 interface Input {
-  [key: string]: string;
+  whyBlood: string;
+  name: string;
+  whatYouDone: string;
+  whyKnife: string;
 }
 
 const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
   const questionTree = useRef(new Questions(prevValues));
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [input, setInput] = useState<Input>({});
+  const [input, setInput] = useState<Input>({
+    whyBlood: '',
+    name: '',
+    whatYouDone: '',
+    whyKnife: '',
+  });
   const [hadKill, setHadKill] = useState<Boolean>();
 
   const [question, setQuestion] = useState(
@@ -54,17 +64,16 @@ const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
   }, [question]);
 
   return (
-    <div className="mx-auto max-w-[900px] rounded-xl border-2 border-green-500">
+    <motion.div
+      layout
+      transition={{ duration: 0.05 }}
+      className="mx-auto max-w-[900px] rounded-xl border-2 border-green-500"
+    >
       {/* TITLE */}
-      <div className="border-b-2 border-green-500 p-4 text-justify">
-        {question.content &&
-          question.content.map((desc, index) => <h2 key={index}>{desc}</h2>)}
-      </div>
 
-      {/* LOGS
-      <div className="m-4 h-48 overflow-x-hidden overflow-y-scroll rounded-xl bg-zinc-900 p-2">
-        <p>dexas</p>
-      </div> */}
+      <div className="border-b-2 border-green-500 p-4 text-justify">
+        <AnimatedText text={question.content} />
+      </div>
 
       {/* TEXT INPUT */}
       {question.input && (
@@ -104,7 +113,8 @@ const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
           </div>
         ))}
       </div>
-      <form hidden ref={formRef} action={sendAction}>
+
+      <form aria-hidden hidden ref={formRef} action={sendAction}>
         <input
           readOnly
           type="text"
@@ -131,7 +141,7 @@ const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
           value={`${hadKill || 'false'}`}
         />
       </form>
-    </div>
+    </motion.div>
   );
 };
 
