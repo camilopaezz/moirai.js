@@ -25,7 +25,7 @@ const AnimatedText = ({ text }: { text: string[] }) => {
         {arrayText.map((line) => (
           <motion.h2 variants={defaultAnimations} key={line}>
             - {line}
-            <div className="h-2"> </div>
+            {text.length > 1 && <div className="h-2"> </div>}
           </motion.h2>
         ))}
       </motion.span>
