@@ -16,6 +16,8 @@ const Playbox = ({ prevValues }: PlayboxProps) => {
   const questionTree = useRef(new Questions(prevValues));
 
   const [input, setInput] = useState<Input>({});
+  const [hadKill, setHadKill] = useState<Boolean>();
+
   const [question, setQuestion] = useState(
     questionTree.current.getQuestion('0000')!,
   );
@@ -31,6 +33,16 @@ const Playbox = ({ prevValues }: PlayboxProps) => {
     });
 
     return filtered;
+  }, [question]);
+
+  useEffect(() => {
+    if (question.key === '6000_kill') {
+      setHadKill(true);
+    }
+
+    if (question.key === '6000_let_go') {
+      setHadKill(false);
+    }
   }, [question]);
 
   return (
