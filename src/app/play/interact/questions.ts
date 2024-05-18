@@ -1,20 +1,4 @@
-interface Interaction {
-  description: string;
-  type: string;
-  ref: string;
-  dispatch?: string[];
-  requires?: string[];
-}
-
-interface Question {
-  key: string;
-  content: string[];
-  input?: { name: string };
-  variables?: any;
-  interactions: Interaction[];
-}
-
-import { PrevValues } from '../utils/types';
+import { PrevValues, Question } from '@/types';
 
 export class Questions {
   questions: Question[];

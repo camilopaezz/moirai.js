@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { PrevValues } from '../utils/types';
+import { Interaction, PrevValues } from '../../../types';
 import { Questions } from '../interact/questions';
 import { m as motion } from 'framer-motion';
 import AnimatedText from '@/components/AnimatedText';
@@ -11,7 +11,7 @@ interface PlayboxProps {
   prevValues: PrevValues;
 }
 
-interface Input {
+interface InputState {
   whyBlood: string;
   name: string;
   whatYouDone: string;
@@ -22,7 +22,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
   const questionTree = useRef(new Questions(prevValues));
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [input, setInput] = useState<Input>({
+  const [input, setInput] = useState<InputState>({
     whyBlood: '',
     name: '',
     whatYouDone: '',
@@ -37,12 +37,14 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
   const filteredInteractions = useMemo(() => {
     const interactions = question.interactions;
 
-    const filtered = interactions.filter((interaction) => {
-      return questionTree.current.areRequirementsMet(
-        question.key,
-        interaction.requires || [],
-      );
-    });
+    const filtered: Interaction[] = interactions.filter(
+      (interaction: Interaction) => {
+        return questionTree.current.areRequirementsMet(
+          question.key,
+          interaction.requires || [],
+        );
+      },
+    );
 
     return filtered;
   }, [question]);
