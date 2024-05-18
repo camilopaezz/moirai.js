@@ -3,7 +3,7 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { PrevValues } from '../utils/types';
 import { Questions } from '../interact/questions';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import AnimatedText from '@/components/AnimatedText';
 import { submitData } from './action';
 
@@ -66,7 +66,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
   return (
     <motion.div
       layout
-      transition={{ duration: 0.05 }}
+      transition={{ duration: 0.06 }}
       className="mx-auto max-w-[900px] rounded-xl border-2 border-green-500"
     >
       {/* TITLE */}
