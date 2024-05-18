@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { PrevValues } from '../../../types';
 import { Questions } from '../interact/questions';
 import { m as motion } from 'framer-motion';
@@ -21,7 +21,6 @@ interface InputState {
 
 const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
   const questionTree = useRef(new Questions(prevValues));
-  const formRef = useRef<HTMLFormElement>(null);
 
   const [input, setInput] = useState<InputState>({
     whyBlood: '',
@@ -30,8 +29,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
     whyKnife: '',
   });
 
-  const [hadKill, setHadKill] = useState<Boolean>();
-
+  const [hadKill, setHadKill] = useState<boolean>(false);
   const [question, setQuestion] = useState(
     questionTree.current.getQuestion('0000')!,
   );
@@ -48,9 +46,13 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
 
   useEffect(() => {
     if (question.key === 'END') {
-      formRef.current?.requestSubmit();
+      console.log('xdddd');
+      submitData({
+        ...input,
+        hadKill,
+      });
     }
-  }, [question]);
+  }, [question, input, hadKill]);
 
   return (
     <motion.div
@@ -66,7 +68,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
       {question.input && (
         <div className="border-b-2 border-green-500">
           <input
-            className="h-14 w-full bg-zinc-950 px-4 placeholder:text-green-600 focus:bg-zinc-950"
+            className="h-14 w-full bg-zinc-950 px-4 placeholder:text-green-500 focus:bg-zinc-950"
             name={question.input.name}
             onChange={(e) =>
               setInput({
@@ -86,34 +88,6 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
         questionTreeRef={questionTree}
         setQuestion={setQuestion}
       />
-
-      <form aria-hidden hidden ref={formRef} action={submitData}>
-        <input
-          readOnly
-          type="text"
-          name="why_blood"
-          value={input.whyBlood || ''}
-        />
-        <input readOnly type="text" name="name" value={input.name || ''} />
-        <input
-          readOnly
-          type="text"
-          name="what_you_done"
-          value={input.whatYouDone || ''}
-        />
-        <input
-          readOnly
-          type="text"
-          name="why_knife"
-          value={input.whyKnife || ''}
-        />
-        <input
-          readOnly
-          type="checkbox"
-          name="hasKilled"
-          value={`${hadKill || 'false'}`}
-        />
-      </form>
     </motion.div>
   );
 };

@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={IBMPlexMono.className}>
+      <body className={`${IBMPlexMono.className} bg-zinc-950 text-green-500`}>
         <div className="mx-auto h-screen max-w-[1200px]">
           <Navbar />
           {children}

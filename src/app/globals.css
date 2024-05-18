@@ -4,6 +4,6 @@
 
 body {
   @apply bg-zinc-950;
-  @apply text-green-600;
+  @apply text-green-500;
   @apply h-screen;
 }
