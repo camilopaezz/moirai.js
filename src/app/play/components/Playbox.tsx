@@ -1,11 +1,12 @@
 'use client';
 
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { Interaction, PrevValues } from '../../../types';
+import { PrevValues } from '../../../types';
 import { Questions } from '../interact/questions';
 import { m as motion } from 'framer-motion';
 import AnimatedText from '@/components/AnimatedText';
 import { submitData } from './action';
+import InteractionsList from './InteractionsList';
 
 interface PlayboxProps {
   prevValues: PrevValues;
@@ -28,26 +29,12 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
     whatYouDone: '',
     whyKnife: '',
   });
+
   const [hadKill, setHadKill] = useState<Boolean>();
 
   const [question, setQuestion] = useState(
     questionTree.current.getQuestion('0000')!,
   );
-
-  const filteredInteractions = useMemo(() => {
-    const interactions = question.interactions;
-
-    const filtered: Interaction[] = interactions.filter(
-      (interaction: Interaction) => {
-        return questionTree.current.areRequirementsMet(
-          question.key,
-          interaction.requires || [],
-        );
-      },
-    );
-
-    return filtered;
-  }, [question]);
 
   useEffect(() => {
     if (question.key === '6000_kill') {
@@ -71,8 +58,6 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
       transition={{ duration: 0.06 }}
       className="mx-auto max-w-[900px] rounded-xl border-2 border-green-500"
     >
-      {/* TITLE */}
-
       <div className="border-b-2 border-green-500 p-4 text-justify">
         <AnimatedText text={question.content} />
       </div>
@@ -81,7 +66,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
       {question.input && (
         <div className="border-b-2 border-green-500">
           <input
-            className="h-14 w-full bg-zinc-950 px-4 placeholder:text-green-600"
+            className="h-14 w-full bg-zinc-950 px-4 placeholder:text-green-600 focus:bg-zinc-950"
             name={question.input.name}
             onChange={(e) =>
               setInput({
@@ -96,25 +81,11 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
       )}
 
       {/* INTERACTIONS */}
-      <div className="w-full">
-        {filteredInteractions.map((interaction) => (
-          <div
-            key={interaction.description}
-            onClick={() => {
-              questionTree.current.dispatch(
-                question.key,
-                interaction.dispatch || [],
-              );
-              setQuestion(questionTree.current.getQuestion(interaction.ref)!);
-            }}
-            className="flex h-12 cursor-pointer items-center px-4 hover:underline"
-          >
-            <span>
-              ~ {`[${interaction.type}]`} {interaction.description}
-            </span>
-          </div>
-        ))}
-      </div>
+      <InteractionsList
+        question={question}
+        questionTreeRef={questionTree}
+        setQuestion={setQuestion}
+      />
 
       <form aria-hidden hidden ref={formRef} action={submitData}>
         <input
