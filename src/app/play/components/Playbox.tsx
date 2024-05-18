@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { PrevValues } from '../utils/types';
 import { Questions } from '../interact/questions';
 import { motion } from 'framer-motion';
 import AnimatedText from '@/components/AnimatedText';
+import { submitData } from './action';
 
 interface PlayboxProps {
   prevValues: PrevValues;
-  sendAction: (e: any) => void;
 }
 
 interface Input {
@@ -18,7 +18,7 @@ interface Input {
   whyKnife: string;
 }
 
-const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
+const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
   const questionTree = useRef(new Questions(prevValues));
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -59,7 +59,7 @@ const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
 
   useEffect(() => {
     if (question.key === 'END') {
-      formRef.current?.submit();
+      formRef.current?.requestSubmit();
     }
   }, [question]);
 
@@ -114,7 +114,7 @@ const Playbox = ({ prevValues, sendAction }: PlayboxProps) => {
         ))}
       </div>
 
-      <form aria-hidden hidden ref={formRef} action={sendAction}>
+      <form aria-hidden hidden ref={formRef} action={submitData}>
         <input
           readOnly
           type="text"
