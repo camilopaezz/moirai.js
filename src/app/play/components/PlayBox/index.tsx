@@ -1,22 +1,24 @@
 'use client';
 
 import { FC, useEffect, useRef, useState } from 'react';
-import { PrevValues } from '../../../types';
-import { Questions } from '../interact/questions';
+import { PrevValues } from '../../../../types';
+import { Questions } from '../../interact/questions';
 import { m as motion } from 'framer-motion';
 import AnimatedText from '@/components/AnimatedText';
 import { submitData } from './action';
-import InteractionsList from './InteractionsList';
+import InteractionsList from '../InteractionsList';
+import { AnswerInput } from '../AnswerInput';
 
 interface PlayboxProps {
   prevValues: PrevValues;
 }
 
-interface InputState {
+export interface InputState {
   whyBlood: string;
   name: string;
   whatYouDone: string;
   whyKnife: string;
+  [key: string]: string;
 }
 
 const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
@@ -46,7 +48,6 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
 
   useEffect(() => {
     if (question.key === 'END') {
-      console.log('xdddd');
       submitData({
         ...input,
         hadKill,
@@ -65,22 +66,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
       </div>
 
       {/* TEXT INPUT */}
-      {question.input && (
-        <div className="border-b-2 border-green-500">
-          <input
-            className="h-14 w-full bg-zinc-950 px-4 placeholder:text-green-500 focus:bg-zinc-950"
-            name={question.input.name}
-            onChange={(e) =>
-              setInput({
-                ...input,
-                [question.input!.name]: e.target.value,
-              })
-            }
-            placeholder="your answer here..."
-            type="text"
-          />
-        </div>
-      )}
+      <AnswerInput input={input} question={question} setInput={setInput} />
 
       {/* INTERACTIONS */}
       <InteractionsList

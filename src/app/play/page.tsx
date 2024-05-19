@@ -1,4 +1,4 @@
-import Playbox from './components/Playbox';
+import Playbox from './components/PlayBox';
 
 const PlayPage = () => {
   return (
