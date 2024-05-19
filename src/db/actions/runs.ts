@@ -1,3 +1,4 @@
+import { RunData } from '@/types';
 import db from '../drizzle';
 import { link, run } from '../schema';
 import { desc, eq } from 'drizzle-orm';
@@ -10,14 +11,6 @@ export const getLatestRun = async () => {
     .limit(1);
 
   return latestRun[0];
-};
-
-export type RunData = {
-  name: string;
-  whyBlood: string;
-  whyKnife: string;
-  whatYouDone: string;
-  hadKilled: boolean;
 };
 
 export const createLink = async (accusedCode: number) => {
