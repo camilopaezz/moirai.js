@@ -46,7 +46,10 @@ export const createRun = async (runData: RunData) => {
     .set({ beenKilled: runData.hadKilled })
     .where(eq(run.code, lastestRun.code));
 
-  return newRun[0].insertedId;
+  return {
+    newRunCode: newRun[0].insertedId,
+    accusedCode: lastestRun.code,
+  };
 };
 
 export const getRunByCode = async (code: number) => {
