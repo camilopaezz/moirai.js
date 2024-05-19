@@ -6,8 +6,10 @@ type Props = {
   };
 };
 
-export const CodePage: FC<Props> = ({ params }) => {
+const CodePage: FC<Props> = ({ params }) => {
   const { code } = params;
 
   return <div>{code}</div>;
 };
+
+export default CodePage;
