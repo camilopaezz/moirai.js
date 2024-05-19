@@ -48,3 +48,9 @@ export const createRun = async (runData: RunData) => {
 
   return newRun[0].insertedId;
 };
+
+export const getRunByCode = async (code: number) => {
+  const runData = await db.select().from(run).where(eq(run.code, code));
+
+  return runData[0];
+};
