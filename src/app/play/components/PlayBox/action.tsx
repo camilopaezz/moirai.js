@@ -1,17 +1,14 @@
 'use server';
 
+import { RunData, createRun } from '@/db/actions/runs';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-interface SubmitDataParams {
-  whyBlood: string;
-  name: string;
-  whatYouDone: string;
-  whyKnife: string;
-  hadKill: boolean;
-}
-
-export const submitData = async (data: SubmitDataParams) => {
+export const submitData = async (data: RunData) => {
   console.log(data);
 
-  return redirect('/play/result');
+  const createdId = await createRun(data);
+
+  revalidatePath('/play');
+  return redirect(`/result/${createdId}`);
 };

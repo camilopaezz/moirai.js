@@ -9,5 +9,5 @@ type Props = {
 export const CodePage: FC<Props> = ({ params }) => {
   const { code } = params;
 
-  return <div>{}</div>;
+  return <div>{code}</div>;
 };

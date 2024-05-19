@@ -50,7 +50,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
     if (question.key === 'END') {
       submitData({
         ...input,
-        hadKill,
+        hadKilled: hadKill,
       });
     }
   }, [question, input, hadKill]);
