@@ -11,7 +11,7 @@ type Props = {
 const CodePage: FC<Props> = ({ params }) => {
   const { code } = params;
   const destinyPath = `/destiny/${code}`;
-  const destinyUrl = 'moirai-js.vercel.app'.concat(destinyPath);
+  const destinyUrl = 'moiraijs.vercel.app'.concat(destinyPath);
 
   return (
     <div className="p-6">

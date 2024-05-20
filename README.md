@@ -1,6 +1,6 @@
 # Moirai.js
 
-<a href="https://moirai-js.vercel.app">
+<a href="https://moiraijs.vercel.app">
 
 ![Frame 111](/banner.png)
 </a>
