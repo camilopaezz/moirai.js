@@ -1,24 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Moirai.js
+
+<a href="https://moirai-js.vercel.app">
+
+![Frame 111](/banner.png)
+</a>
+
+A web and text based implementation of the [moirai](https://hypernexus.itch.io/moirai) game.
+
+## Stack
+
+- Nextjs 14
+- Tailwind-css
+- Typescript
+- Neon serverless Posgresql
+- Drizzle
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies using pnpm:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ pnpm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Setup database
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+We choose Neon DB, but feel free to use whatever you want, see `/src/db/drizzle.ts`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Copy `.env.example` and rename it to `.env` fill `NEON_DATABASE_URL`.
+
+- Run script `db:push` to sync schemas.
+
+```bash
+$ pnpm run db:push
+```
+
+### Start dev server
+
+```bash
+$ pnpm run dev
+```
+
+Now can start editing the page by modifying `app/page.tsx`.
 
 ## Learn More
 
