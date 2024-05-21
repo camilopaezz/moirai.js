@@ -24,7 +24,9 @@ export default function RootLayout({
       <body className={`${IBMPlexMono.className} bg-zinc-950 text-green-500`}>
         <div className="mx-auto h-screen max-w-[1200px]">
           <Navbar />
+
           {children}
+
           <footer className="w-full">
             <p className="flex h-10 items-center justify-center border-t-2 border-green-600 text-center">
               © {new Date().getFullYear()} Moirai.js

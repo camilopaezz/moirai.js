@@ -11,7 +11,7 @@ export const submitData = async (data: RunData) => {
   const { accusedCode, newRunCode } = await createRun(data);
 
   revalidatePath('/play');
-  revalidatePath(`/destiny/${accusedCode}`);
+  revalidatePath(`/fate/${accusedCode}`);
 
   return redirect(`/play/${newRunCode}`);
 };

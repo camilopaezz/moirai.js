@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { GoPlay } from 'react-icons/go';
+import { TbCrystalBall } from 'react-icons/tb';
 
 const Navbar = () => {
   return (
@@ -11,13 +11,13 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center justify-center gap-4">
-          <Link href="/play">
+          <Link href="/fate">
             <Button
               className="border-green-600 bg-zinc-950 font-bold hover:bg-green-600"
               variant="outline"
             >
-              <GoPlay className="mr-2 text-xl" />
-              Play
+              <TbCrystalBall className="mr-2 text-xl" />
+              Know your fate
             </Button>
           </Link>
         </div>

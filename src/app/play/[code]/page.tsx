@@ -10,8 +10,8 @@ type Props = {
 
 const CodePage: FC<Props> = ({ params }) => {
   const { code } = params;
-  const destinyPath = `/destiny/${code}`;
-  const destinyUrl = 'moiraijs.vercel.app'.concat(destinyPath);
+  const fatePath = `/fate/${code}`;
+  const fateUrl = 'moiraijs.vercel.app'.concat(fatePath);
 
   return (
     <div className="p-6">
@@ -21,21 +21,21 @@ const CodePage: FC<Props> = ({ params }) => {
         <span className="text-xl">Your code is:</span>
         <div className="flex flex-col gap-1">
           <Link
-            href={`/destiny/${code}`}
+            href={`/fate/${code}`}
             className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl hover:underline"
           >
             {'0'.repeat(8 - code.length).concat(code)}
           </Link>
           <Link
             className="inline-flex items-center gap-2 hover:underline"
-            href={destinyPath}
+            href={fatePath}
           >
-            {destinyUrl}
+            {fateUrl}
             <GoLinkExternal />
           </Link>
         </div>
 
-        <p>Wait some time, someone will choose your destiny</p>
+        <p>Wait some time, someone will choose your fate</p>
       </div>
     </div>
   );

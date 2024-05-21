@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import Heading from '@/components/Heading';
 import Link from 'next/link';
 import { GoPlay } from 'react-icons/go';
 
@@ -6,7 +7,7 @@ export default function Home() {
   return (
     <main className="px-6 py-10 text-center">
       <header className="grid gap-6">
-        <h1 className="text-5xl underline">Moirai.js</h1>
+        <Heading underline>Moirai.js</Heading>
         <p>A text based implementation of the moirai game</p>
       </header>
 
