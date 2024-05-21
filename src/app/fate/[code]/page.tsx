@@ -1,4 +1,5 @@
 import { getRunByCode } from '@/db/actions/runs';
+import Heading from '@/components/Heading';
 import { notFound } from 'next/navigation';
 import { FC } from 'react';
 
@@ -26,7 +27,7 @@ const FatePage: FC<Props> = async ({ params }) => {
   if (beenKilled === null) {
     return (
       <div className="flex flex-col items-center gap-6 p-6 text-center">
-        <h1 className="text-5xl">Your fate is being decided...</h1>
+        <Heading>Your fate is being decided...</Heading>
         <div className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl hover:underline">
           {'0'.repeat(8 - code.length).concat(code)}
         </div>
@@ -38,9 +39,9 @@ const FatePage: FC<Props> = async ({ params }) => {
   if (beenKilled) {
     return (
       <div className="flex flex-col items-center gap-6 p-6 text-center">
-        <h1 className="text-5xl">
+        <Heading>
           You have been <span className="font-bold">killed!</span>
-        </h1>
+        </Heading>
         <div className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl">
           {'0'.repeat(8 - code.length).concat(code)}
         </div>
@@ -51,9 +52,9 @@ const FatePage: FC<Props> = async ({ params }) => {
 
   return (
     <div className="flex flex-col items-center gap-6 p-6 text-center">
-      <h1 className="text-5xl">
+      <Heading>
         You have been <span className="font-bold">let go!</span>
-      </h1>
+      </Heading>
       <div className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl">
         {'0'.repeat(8 - code.length).concat(code)}
       </div>

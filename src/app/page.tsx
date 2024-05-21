@@ -11,7 +11,7 @@ export default function Home() {
         <p>A text based implementation of the moirai game</p>
       </header>
 
-      <div className="my-14">
+      <div className="my-8">
         <Link href="/play">
           <Button
             className="border-green-600 bg-zinc-950 px-8 py-8 text-4xl font-bold hover:bg-green-600"

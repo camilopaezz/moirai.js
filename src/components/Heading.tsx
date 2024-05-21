@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 type HeadingProps = {
   underline?: boolean;
-  children: string;
+  children: any;
   classname?: string;
 };
 

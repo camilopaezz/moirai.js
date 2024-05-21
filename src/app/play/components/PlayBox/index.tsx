@@ -21,16 +21,17 @@ export interface InputState {
   [key: string]: string;
 }
 
+const defaultInput: InputState = {
+  whyBlood: '',
+  name: '',
+  whatYouDone: '',
+  whyKnife: '',
+};
+
 const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
   const questionTree = useRef(new Questions(prevValues));
 
-  const [input, setInput] = useState<InputState>({
-    whyBlood: '',
-    name: '',
-    whatYouDone: '',
-    whyKnife: '',
-  });
-
+  const [input, setInput] = useState<InputState>(defaultInput);
   const [hadKill, setHadKill] = useState<boolean>(false);
   const [question, setQuestion] = useState(
     questionTree.current.getQuestion('0000')!,

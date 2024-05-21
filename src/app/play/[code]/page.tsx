@@ -1,3 +1,4 @@
+import Heading from '@/components/Heading';
 import Link from 'next/link';
 import { FC } from 'react';
 import { GoLinkExternal } from 'react-icons/go';
@@ -16,7 +17,7 @@ const CodePage: FC<Props> = ({ params }) => {
   return (
     <div className="p-6">
       <div className="flex flex-col items-center gap-6 text-center">
-        <h1 className="text-5xl">Your story is over for now...</h1>
+        <Heading>Your story is over for now...</Heading>
 
         <span className="text-xl">Your code is:</span>
         <div className="flex flex-col gap-1">
