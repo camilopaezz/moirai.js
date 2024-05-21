@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { TbCrystalBall } from 'react-icons/tb';
+import { TbBrandGithub, TbCrystalBall } from 'react-icons/tb';
 
 const Navbar = () => {
   return (
@@ -11,6 +11,14 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center justify-center gap-4">
+          <Link href="https://github.com/camilopaezz/moirai.js" target="_blank">
+            <Button
+              className="border-green-600 bg-zinc-950 font-bold hover:bg-green-600"
+              variant="outline"
+            >
+              <TbBrandGithub className="text-xl" />
+            </Button>
+          </Link>
           <Link href="/fate">
             <Button
               className="border-green-600 bg-zinc-950 font-bold hover:bg-green-600"

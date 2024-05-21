@@ -29,7 +29,7 @@ export default function RootLayout({
 
           <footer className="w-full">
             <p className="flex h-10 items-center justify-center border-t-2 border-green-600 text-center">
-              © {new Date().getFullYear()} Moirai.js
+              © {new Date().getFullYear()} camilopaezz
             </p>{' '}
           </footer>
         </div>
