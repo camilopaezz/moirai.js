@@ -11,16 +11,22 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center justify-center gap-4">
-          <Link href="https://github.com/camilopaezz/moirai.js" target="_blank">
+          <Link
+            aria-label="go-to-github"
+            href="https://github.com/camilopaezz/moirai.js"
+            target="_blank"
+          >
             <Button
+              aria-label="github-icon"
               className="border-green-600 bg-zinc-950 font-bold hover:bg-green-600"
               variant="outline"
             >
               <TbBrandGithub className="text-xl" />
             </Button>
           </Link>
-          <Link href="/fate">
+          <Link aria-label="know you fate" href="/fate">
             <Button
+              aria-label="know-your-fate"
               className="border-green-600 bg-zinc-950 font-bold hover:bg-green-600"
               variant="outline"
             >
