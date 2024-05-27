@@ -23,12 +23,12 @@ const CodePage: FC<Props> = ({ params }) => {
         <div className="flex flex-col gap-1">
           <Link
             href={`/fate/${code}`}
-            className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl hover:underline"
+            className="mx-auto w-fit rounded-xl border-2 border-green-500 p-4 hover:underline sm:text-lg md:text-4xl xl:text-5xl"
           >
             {code}
           </Link>
           <Link
-            className="mx-auto inline-flex items-center gap-2 hover:underline"
+            className="mx-auto inline-flex items-center gap-2 break-all hover:underline"
             href={fatePath}
           >
             {fateUrl}
