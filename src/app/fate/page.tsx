@@ -27,9 +27,11 @@ const FateSearchPage: React.FC = () => {
         <input
           autoFocus
           placeholder="Copy your code here..."
-          className="h-full bg-zinc-950 px-2 focus:bg-zinc-950"
+          className="h-full w-80 bg-zinc-950 px-2 focus:bg-zinc-950"
           type="text"
           name="code"
+          minLength={26}
+          maxLength={26}
         />
         <button className="h-full border-l-2 border-green-500 p-2">
           Search

@@ -18,6 +18,7 @@ export interface InputState {
   name: string;
   whatYouDone: string;
   whyKnife: string;
+  [key: string]: string;
 }
 
 const defaultInput: InputState = {
