@@ -6,5 +6,5 @@ CREATE TABLE run(
 	why_knife VARCHAR(1024) NOT NULL,
 	what_you_done VARCHAR(1024) NOT NULL,
 	had_kill BOOLEAN DEFAULT NULL,
-	judge_id INT REFERENCES run(run_id) DEFAULT NULL
+	judge_id INT REFERENCES run(run_id) DEFAULT 1
 );
