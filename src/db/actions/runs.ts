@@ -1,59 +1,107 @@
-import { RunData } from '@/types';
-import db from '../drizzle';
-import { link, run } from '../schema';
-import { desc, eq } from 'drizzle-orm';
+import { Ulid } from 'id128';
+import { sql } from '..';
 
-export const getLatestRun = async () => {
-  const latestRun = await db
-    .select()
-    .from(run)
-    .orderBy(desc(run.code))
-    .limit(1);
+export interface Run {
+  runId: number;
+  publicId: string;
+  name: string;
+  whyBlood: string;
+  whyKnife: string;
+  whatYouDone: string;
+  hadKill: boolean;
+  judgeId: number | null;
+}
+
+export type RunColums = Array<keyof Run>;
+export type RunCreator = Omit<Run, 'runId' | 'publicId' | 'judgeId'>;
+
+export type SafeRun = Omit<Run, 'runId' | 'judgeId'>;
+export type SafeRunColums = Array<keyof SafeRun>;
+
+export const getLatestRunData = async () => {
+  const colums: RunColums = [
+    'name',
+    'whyBlood',
+    'whyKnife',
+    'whatYouDone',
+    'hadKill',
+  ];
+
+  const latestRun = await sql<Run[]>`
+    SELECT ${sql(colums)} FROM run ORDER BY run_id DESC LIMIT 1
+  `;
+
+  if (latestRun.length === 0) {
+    return null;
+  }
 
   return latestRun[0];
 };
 
-export const createLink = async (accusedCode: number) => {
-  if (accusedCode) {
-    const newLink = await db
-      .insert(link)
-      .values({ accused: accusedCode })
-      .returning({ insertedId: link.id });
+// export const getLatestRunId = async () => {
+//   const latestRunId = await sql<Run[]>`
+//     SELECT public_id FROM run ORDER BY run_id DESC LIMIT 1
+//   `;
 
-    return newLink[0].insertedId;
-  }
-};
+//   if (latestRunId.length === 0) {
+//     return null;
+//   }
 
-export const createRun = async (runData: RunData) => {
-  const lastestRun = await getLatestRun();
-  const accusedLinkId = await createLink(lastestRun.code);
+//   return latestRunId[0].runId;
+// };
 
-  const newRun = await db
-    .insert(run)
-    .values({
-      ...runData,
-      link: accusedLinkId,
-    })
-    .returning({ insertedId: run.code });
+type createRunReturn = Pick<Run, 'publicId'>;
 
-  await db
-    .update(link)
-    .set({ judge: newRun[0].insertedId })
-    .where(eq(link.accused, lastestRun.code));
-
-  await db
-    .update(run)
-    .set({ beenKilled: runData.hadKilled })
-    .where(eq(run.code, lastestRun.code));
-
-  return {
-    newRunCode: newRun[0].insertedId,
-    accusedCode: lastestRun.code,
+export const createRun = async (
+  runDataParams: RunCreator,
+): Promise<createRunReturn> => {
+  const runData = {
+    ...runDataParams,
+    publicId: Ulid.generate().toRaw(),
   };
+
+  const newRun = await sql<createRunReturn[]>`
+    INSERT INTO run ${sql(runData)} RETURNING public_id
+  `;
+
+  return newRun[0];
 };
 
-export const getRunByCode = async (code: number) => {
-  const runData = await db.select().from(run).where(eq(run.code, code));
+export type getFateByIdReturn = { beenKilled: boolean };
 
-  return runData[0];
+export const getFateById = async (id: string) => {
+  const run = await sql<getFateByIdReturn[]>`
+   SELECT run_judge.had_kill AS "beenKilled"
+   FROM run
+   INNER JOIN run AS run_judge 
+   ON run.judge_id = run_judge.run_id 
+   WHERE run.public_id = ${id};
+`;
+
+  if (run.length === 0) {
+    return null;
+  }
+
+  return run[0];
+};
+
+export const getRunDataById = async (id: string) => {
+  const colums: SafeRunColums = [
+    'hadKill',
+    'name',
+    'whatYouDone',
+    'whyBlood',
+    'whyKnife',
+    'publicId',
+  ];
+
+  const run = await sql<SafeRun[]>`
+    SELECT ${colums} FROM run WHERE public_id = ${id}
+  `;
+
+  if (run.length === 0) {
+    return null;
+  }
+
+  return run[0];
 };

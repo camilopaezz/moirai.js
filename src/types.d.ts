@@ -13,14 +13,6 @@ export interface Interaction {
   requires?: string[];
 }
 
-export type RunData = {
-  name: string;
-  whyBlood: string;
-  whyKnife: string;
-  whatYouDone: string;
-  hadKilled: boolean;
-};
-
 export interface Question {
   key: string;
   content: string[];

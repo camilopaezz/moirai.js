@@ -25,10 +25,10 @@ const CodePage: FC<Props> = ({ params }) => {
             href={`/fate/${code}`}
             className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl hover:underline"
           >
-            {'0'.repeat(8 - code.length).concat(code)}
+            {code}
           </Link>
           <Link
-            className="inline-flex items-center gap-2 hover:underline"
+            className="mx-auto inline-flex items-center gap-2 hover:underline"
             href={fatePath}
           >
             {fateUrl}

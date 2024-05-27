@@ -18,7 +18,6 @@ export interface InputState {
   name: string;
   whatYouDone: string;
   whyKnife: string;
-  [key: string]: string;
 }
 
 const defaultInput: InputState = {
@@ -51,7 +50,7 @@ const Playbox: FC<PlayboxProps> = ({ prevValues }) => {
     if (question.key === 'END') {
       submitData({
         ...input,
-        hadKilled: hadKill,
+        hadKill,
       });
     }
   }, [question, input, hadKill]);

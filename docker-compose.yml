@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:16.3-alpine3.20
+    restart: always
+    container_name: moirai_db
+    environment:
+      - POSTGRES_USER=moirai_owner
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=moirai_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db:/var/lib/postgresql/data

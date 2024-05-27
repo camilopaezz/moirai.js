@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const searchAction = async (formData: FormData) => {
   'use server';
-  const code = Number(formData.get('code') as string);
+  const code = formData.get('code') as string;
 
   redirect(`/fate/${code}`);
 };
