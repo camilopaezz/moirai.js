@@ -12,23 +12,21 @@ type Props = {
 const FatePage: FC<Props> = async ({ params }) => {
   const { code } = params;
 
-  if (code.length !== 32) {
+  if (code.length !== 26) {
     return notFound();
   }
 
-  const run = await getFateById(code);
+  const beenKilled = await getFateById(code);
 
-  if (!run) {
+  if (beenKilled === 'error') {
     return notFound();
   }
-
-  const beenKilled = run.beenKilled;
 
   if (beenKilled === null) {
     return (
       <div className="flex flex-col items-center gap-6 p-6 text-center">
         <Heading>Your fate is being decided...</Heading>
-        <div className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl hover:underline">
+        <div className="w-fit rounded-xl border-2 border-green-500 p-4 sm:text-xl md:text-4xl xl:text-5xl">
           {code}
         </div>
         <p>Wait some time, someone will choose your Fate</p>
@@ -36,29 +34,25 @@ const FatePage: FC<Props> = async ({ params }) => {
     );
   }
 
-  if (beenKilled) {
-    return (
-      <div className="flex flex-col items-center gap-6 p-6 text-center">
+  return (
+    <div className="flex flex-col items-center gap-6 p-6 text-center">
+      {beenKilled ? (
         <Heading>
           You have been <span className="font-bold">killed!</span>
         </Heading>
-        <div className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl">
-          {code}
-        </div>
-        <p>Your words wasn&apos;t enough...</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col items-center gap-6 p-6 text-center">
-      <Heading>
-        You have been <span className="font-bold">let go!</span>
-      </Heading>
-      <div className="w-fit rounded-xl border-2 border-green-500 p-4 text-6xl">
+      ) : (
+        <Heading>
+          You have been <span className="font-bold">let go!</span>
+        </Heading>
+      )}
+      <div className="w-fit rounded-xl border-2 border-green-500 p-4 sm:text-xl md:text-4xl xl:text-5xl">
         {code}
       </div>
-      <p>Your words are convincing...</p>
+      {beenKilled ? (
+        <p>Your words wasn&apos;t enough...</p>
+      ) : (
+        <p>Your words are convincing...</p>
+      )}
     </div>
   );
 };

@@ -38,51 +38,64 @@ export const getLatestRunData = async () => {
   return latestRun[0];
 };
 
-// export const getLatestRunId = async () => {
-//   const latestRunId = await sql<Run[]>`
-//     SELECT public_id FROM run ORDER BY run_id DESC LIMIT 1
-//   `;
+export const getLatestRunId = async () => {
+  const latestRunId = await sql<Array<Pick<Run, 'runId'>>>`
+    SELECT run_id FROM run ORDER BY run_id DESC LIMIT 1
+  `;
 
-//   if (latestRunId.length === 0) {
-//     return null;
-//   }
+  if (latestRunId.length === 0) {
+    return null;
+  }
 
-//   return latestRunId[0].runId;
-// };
+  return latestRunId[0].runId;
+};
 
 type createRunReturn = Pick<Run, 'publicId'>;
+type createRunDbReturn = Pick<Run, 'publicId' | 'runId'>;
 
 export const createRun = async (
   runDataParams: RunCreator,
 ): Promise<createRunReturn> => {
+  const latestRunId = await getLatestRunId();
+
   const runData = {
     ...runDataParams,
-    publicId: Ulid.generate().toRaw(),
+    publicId: Ulid.generate().toCanonical(),
   };
 
-  const newRun = await sql<createRunReturn[]>`
-    INSERT INTO run ${sql(runData)} RETURNING public_id
+  const [newRun] = await sql<createRunDbReturn[]>`
+    INSERT INTO run ${sql(runData)} RETURNING public_id, run_id
   `;
 
-  return newRun[0];
+  if (latestRunId) {
+    await sql`
+      UPDATE run
+      SET judge_id = ${newRun.runId}
+      WHERE run_id = ${latestRunId}
+    `;
+  }
+
+  return {
+    publicId: newRun.publicId,
+  };
 };
 
 export type getFateByIdReturn = { beenKilled: boolean };
 
 export const getFateById = async (id: string) => {
   const run = await sql<getFateByIdReturn[]>`
-   SELECT run_judge.had_kill AS "beenKilled"
+   SELECT run_judge.had_kill AS "beenKilled", run.judge_id
    FROM run
-   INNER JOIN run AS run_judge 
-   ON run.judge_id = run_judge.run_id 
+   INNER JOIN run AS run_judge
+   ON run.judge_id = run_judge.run_id
    WHERE run.public_id = ${id};
 `;
 
   if (run.length === 0) {
-    return null;
+    return 'error';
   }
 
-  return run[0];
+  return run[0].beenKilled;
 };
 
 export const getRunDataById = async (id: string) => {
